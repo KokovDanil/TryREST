@@ -17,11 +17,10 @@ public class MockController {
     private int counter = 5;
 
     private List<Map<String, String>> messages = new ArrayList<Map<String, String>>(){{
-        add(new HashMap<String, String>() {{ put("companyId", "100"); put("name", "Izergil");}});
-        add(new HashMap<String, String>() {{ put("companyId", "200"); put("name", "Mick");}});
-        add(new HashMap<String, String>() {{ put("companyId", "300"); put("name", "Jagger");}});
-        add(new HashMap<String, String>() {{ put("companyId", "400"); put("name", "Bill");}});
-        add(new HashMap<String, String>() {{ put("companyId", "400"); put("name", "Paul");}});
+        add(new HashMap<String, String>() {{ put("companyId", "100"); put("name", "Bill");}});
+        add(new HashMap<String, String>() {{ put("companyId", "100"); put("name", "Alex");}});
+        add(new HashMap<String, String>() {{ put("companyId", "100"); put("name", "Phil");}});
+        add(new HashMap<String, String>() {{ put("companyId", "100"); put("name", "Paul");}});
     }};
 
     @GetMapping
@@ -30,13 +29,13 @@ public class MockController {
     }
 
     @GetMapping("{companyId}")
-    public Map<String, String> getCompany(@PathVariable String companyId){
+    public Map<String, String> getOne(@PathVariable String companyId){
         return getMessage(companyId);
     }
 
-    private Map<String, String> getMessage(@PathVariable String companyId) {
+    private Map<String, String> getMessage(@PathVariable String id) {
         return messages.stream()
-                .filter(message -> message.get("companyId").equals(companyId))
+                .filter(message -> message.get("id").equals(id))
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
     }

@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TryRestApplicationTests {
 
 	@Test
-	void get() {
+	void contextLoads() {
 	}
 
 }
