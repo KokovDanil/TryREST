@@ -1,7 +1,7 @@
-package TryREST.services.impl;
+package MockServer.services.impl;
 
-import TryREST.models.User;
-import TryREST.services.IUserService;
+import MockServer.models.User;
+import MockServer.services.IUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements IUserService {
 
     private void fillUsers() {
         for(int i = 0; i < 10; i++) {
-            User user = new User("name " + (i + 1), i + 1);
+            User user = new User("user_" + (i + 1), i + 1);
             users.add(user);
         }
 

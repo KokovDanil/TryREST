@@ -1,8 +1,8 @@
-package TryREST.controller;
+package MockServer.controller;
 
-import TryREST.exception.NotFoundException;
-import TryREST.models.User;
-import TryREST.services.IUserService;
+import MockServer.exception.NotFoundException;
+import MockServer.models.User;
+import MockServer.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

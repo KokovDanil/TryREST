@@ -1,4 +1,4 @@
-package TryREST.models;
+package MockServer.models;
 
 public class User {
     private final String name;

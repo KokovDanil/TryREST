@@ -1,6 +1,6 @@
-package TryREST.services;
+package MockServer.services;
 
-import TryREST.models.User;
+import MockServer.models.User;
 
 import java.util.Optional;
 
