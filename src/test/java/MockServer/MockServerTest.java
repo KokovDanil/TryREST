@@ -15,18 +15,78 @@ class MockServerTest{
 	@Autowired
 	private TestRestTemplate restTemplate;
 
+	/*
+	Тесты для запросов:
+	1) тест с правильными данными
+	2) тест с данными, где в компании нет конкретного пользователя
+	3) тест с пустым именем пользователя
+	4) тест, в котором вместо id компании строка
+	5) тест, в котором нет id компании
+	*/
+
+
+	//Тест на вхождение пользователя в список (правильные данные)
 	@Test
-	public void someTest() throws Exception{
+	public void test1() throws Exception{
 		User correct = new User("user_1", 1);
 
-		User result = this.restTemplate.getForObject("http://localhost:8080/company/1/users?name=user_1", User.class);
+		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/1/users?name=user_1", User.class);
 
-		System.out.println(equalsUser(correct, result));
+		if (result.getName() == null) System.out.println("Такого пользователя нет, 404");
+		else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
+								"\nИмя: " + result.getName() +
+								"\nid компании: " + result.getCompanyId());
 	}
 
-	public boolean equalsUser (User user1, User user2){
-		if (!user1.getName().equals(user2.getName())) return false;
-		if (user1.getCompanyId() != user2.getCompanyId()) return false;
-		return true;
+	//Тест на вхождение пользователя в список (нет пользователя в данной компании)
+	@Test
+	public void test2() throws Exception{
+		User correct = new User("user_1", 1);
+
+		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/2/users?name=user_1", User.class);
+
+		if (result.getName() == null) System.out.println("Такого пользователя нет, 404");
+		else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
+								"\nИмя: " + result.getName() +
+								"\nid компании: " + result.getCompanyId());
+	}
+
+	//тест с пустым именем пользователя
+	@Test
+	public void test3() throws Exception{
+		User correct = new User("user_1", 1);
+
+		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/2/users?name=", User.class);
+
+		if (result.getName() == null) System.out.println("Такого пользователя нет, 404");
+		else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
+								"\nИмя: " + result.getName() +
+								"\nid компании: " + result.getCompanyId());
+	}
+
+	//тест, в котором вместо id компании строка
+	@Test
+	public void test4() throws Exception{
+		User correct = new User("user_1", 1);
+
+		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/asd/users?name=user_1", User.class);
+
+		if (result.getName() == null) System.out.println("Такого пользователя нет, 404");
+		else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
+								"\nИмя: " + result.getName() +
+								"\nid компании: " + result.getCompanyId());
+	}
+
+	//тест, в котором нет id компании
+	@Test
+	public void test5() throws Exception{
+		User correct = new User("user_1", 1);
+
+		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/users?name=user_1", User.class);
+
+		if (result.getName() == null) System.out.println("Такого пользователя нет, 404");
+		else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
+								"\nИмя: " + result.getName() +
+								"\nid компании: " + result.getCompanyId());
 	}
 }

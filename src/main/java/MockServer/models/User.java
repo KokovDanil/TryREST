@@ -16,4 +16,10 @@ public class User {
     public int getCompanyId() {
         return companyId;
     }
+
+    public boolean equalsUser(User anotherUser){
+        if (!this.getName().equals(anotherUser.getName())) return false;
+        if (this.getCompanyId() != anotherUser.getCompanyId()) return false;
+        return true;
+    }
 }

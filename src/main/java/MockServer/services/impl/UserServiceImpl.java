@@ -26,10 +26,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     private void fillUsers() {
-        for(int i = 0; i < 10; i++) {
-            User user = new User("user_" + (i + 1), i + 1);
-            users.add(user);
-        }
-
+        User user = new User("user_1",1);
+        users.add(user);
     }
 }
