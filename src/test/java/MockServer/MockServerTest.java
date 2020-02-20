@@ -1,36 +1,32 @@
 package MockServer;
 
 import MockServer.models.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Map;
-
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MockServerTest{
-	//Пример запроса:  some_domain.com/company/777/users?name=Izergil
+	@LocalServerPort
+	private int port;
+
+	@Autowired
+	private TestRestTemplate restTemplate;
+
 	@Test
-	public void testGetMockServer() throws IOException {
-		User correctUser = new User("Kostya", 14);
+	public void someTest() throws Exception{
+		User correct = new User("user_1", 1);
 
-		String url = "http://localhost:8080/company/14/users?name=Kostya";
+		User result = this.restTemplate.getForObject("http://localhost:8080/company/1/users?name=user_1", User.class);
 
-		URL object = new URL(url);
-		HttpURLConnection connection = (HttpURLConnection) object.openConnection();
+		System.out.println(equalsUser(correct, result));
+	}
 
-		connection.setRequestMethod("GET");
-
-		Map<String, String> response = (Map<String, String>) connection.getInputStream();
-		User testUser = new User("K", 14);
-		Assertions.assertEquals(correctUser, testUser);
+	public boolean equalsUser (User user1, User user2){
+		if (!user1.getName().equals(user2.getName())) return false;
+		if (user1.getCompanyId() != user2.getCompanyId()) return false;
+		return true;
 	}
 }
