@@ -21,6 +21,7 @@ class MockServerTestWithVerify {
 	2) тест с данными, где пользователь не из этой компании
 	3) тест с правильным id компании и пустым пользователем
 	4) тест без id компании
+	5) тест, где вместо id компании строка
 	*/
 
 
@@ -96,6 +97,25 @@ class MockServerTestWithVerify {
 			else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
 									"\nИмя: " + result.getName() +
 									"\nid компании: " + result.getCompanyId());
+		}
+		else System.out.println("Success! Вы не имеете доступа к этим данным");
+	}
+
+	//тест, где вместо id компании строка
+	//Успех: нет доступа, т.к. "не та компания"
+	@Test
+	public void test5() throws Exception{
+		int myCompanyId = 1;
+
+		User correct = new User("user_1", 1);
+
+		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/asd/users?name=", User.class);
+
+		if (result.getCompanyId() == myCompanyId) {
+			if (result.getName() == null) System.out.println("404");
+			else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
+					"\nИмя: " + result.getName() +
+					"\nid компании: " + result.getCompanyId());
 		}
 		else System.out.println("Success! Вы не имеете доступа к этим данным");
 	}
