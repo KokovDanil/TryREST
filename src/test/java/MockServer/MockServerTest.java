@@ -1,6 +1,7 @@
 package MockServer;
 
 import MockServer.models.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,30 +28,36 @@ class MockServerTest{
 
 	//Тест на вхождение пользователя в список (правильные данные)
 	//Успех: верные данны пользователя
+	//Передалал на ассерт
 	@Test
 	public void test1() throws Exception{
 		User correct = new User("user_1", 1);
 
 		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/1/users?name=user_1", User.class);
 
-		if (result.getName() == null) System.out.println("Такого пользователя нет, 404");
-		else System.out.println("Success!\nПользователь должен быть: " + result.equalsUser(correct) +
-								"\nИмя: " + result.getName() +
-								"\nid компании: " + result.getCompanyId());
+//		if (result.getName() == null) System.out.println("Такого пользователя нет, 404");
+//		else System.out.println("Success!\nПользователь должен быть: " + result.equalsUser(correct) +
+//								"\nИмя: " + result.getName() +
+//								"\nid компании: " + result.getCompanyId());
+		Assertions.assertEquals(correct.getName(), result.getName(), "smth gone wrong with name");
+		Assertions.assertEquals(correct.getCompanyId(), result.getCompanyId(), "smth gone wrong with id");
 	}
 
 	//Тест на вхождение пользователя в список (нет пользователя в данной компании)
 	//Успех: нет пользователя - 404
+	//Переделал на ассерты, но костыльно
 	@Test
 	public void test2() throws Exception{
 		User correct = new User("user_1", 1);
 
 		User result = this.restTemplate.getForObject("http://localhost:"+ port +"/company/2/users?name=user_1", User.class);
 
-		if (result.getName() == null) System.out.println("Success! Такого пользователя нет, 404");
-		else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
-								"\nИмя: " + result.getName() +
-								"\nid компании: " + result.getCompanyId());
+//		if (result.getName() == null) System.out.println("Success! Такого пользователя нет, 404");
+//		else System.out.println("Пользователь должен быть: " + result.equalsUser(correct) +
+//								"\nИмя: " + result.getName() +
+//								"\nid компании: " + result.getCompanyId());
+		Assertions.assertNull(result.getName(), "Have some name");
+		Assertions.assertEquals(result.getCompanyId(), 0, "Have some id");
 	}
 
 	//тест с пустым именем пользователя
